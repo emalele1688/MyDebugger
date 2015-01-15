@@ -1,0 +1,5 @@
+1) Il debugger avvia il processo tracciato (come processo figlio). Quando il processo tracciato si blocca cedendo il suo controllo al debugger esso può ricevere una SIGKILL, che trasmetterà al processo padre (debugger) una SIGCHLD.
+Il problema da tener in considerazione è che dal momento che il processo tracciato è uno zombie perchè è stato ucciso un eventuale operazione di controllo sul processo tracciato (ad esempio una PTRACE_CONT) fallirà poichè il processo
+è terminato. Occorre comunque invocare una wait sul processo ucciso (in tal modo siamo anche sicuri che il processo è stato ucciso da una SIGKILL). 
+SOLUZIONE IDEALE:
+  Installare un gestore SIGCHLD sul debugger che, se il processo tracciato ha ceduto il controllo al debugger (quindi tale processo è bloccato) invoca una wait per controllare lo stato del figlio e prendere l'esatta decisione.
