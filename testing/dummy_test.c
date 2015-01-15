@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <sys/capability.h>
 
 int i = 0;
 
